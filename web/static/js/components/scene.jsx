@@ -9,7 +9,7 @@ module.exports = React.createClass({
   render: function() {
     return (
       <a-scene>
-        <Box />
+        <Box game_state={this.props.game_state}/>
         <Camera />
       </a-scene>
     );

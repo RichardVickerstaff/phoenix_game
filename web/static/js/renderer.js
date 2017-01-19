@@ -13,13 +13,12 @@ module.exports = function(){
   let channel = socket.channel("game:lobby", {})
 
   channel.on("update_state", payload => {
-    ReactDOM.render(<h1>Test</h1>, document.getElementById('game'));
+    ReactDOM.render(<Scene game_state={payload}/>, document.getElementById('game'));
   })
 
   channel.join()
     .receive("ok", resp => {
-      console.log('joined');
-      ReactDOM.render(<Scene />, document.getElementById('game'));
+      ReactDOM.render(<Scene game_state={resp}/>, document.getElementById('game'));
     })
     .receive("error", resp => { console.log("Unable to join", resp) })
 
