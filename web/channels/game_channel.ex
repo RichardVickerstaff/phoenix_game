@@ -10,7 +10,8 @@ defmodule PhoenixGame.GameChannel do
   end
 
   def handle_in("action", payload, socket) do
-    broadcast! socket, "update_state", new_game_state()
+    Game.Cache.set("1234", new_game_state())
+    broadcast! socket, "update_state", game_state()
     {:noreply, socket}
   end
 
@@ -28,10 +29,11 @@ defmodule PhoenixGame.GameChannel do
   end
 
   defp game_state do
-    %{color: "#6173F4", x: 0, y: 0, z: -5 }
+    Game.Cache.fetch("1234", %{color: "#6173F4", x: 0, y: 0, z: -5 })
   end
 
   defp new_game_state do
-    %{color: "#6173F4", x: 0, y: 2, z: -5 }
+    state = game_state()
+    Map.put(state, :x, state.x + 1)
   end
 end

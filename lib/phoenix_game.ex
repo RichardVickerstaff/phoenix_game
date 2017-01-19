@@ -14,6 +14,7 @@ defmodule PhoenixGame do
       supervisor(PhoenixGame.Endpoint, []),
       # Start your own worker by calling: PhoenixGame.Worker.start_link(arg1, arg2, arg3)
       # worker(PhoenixGame.Worker, [arg1, arg2, arg3]),
+      supervisor(Game.Supervisor, []),
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
