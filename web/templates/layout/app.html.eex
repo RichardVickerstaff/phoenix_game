@@ -7,29 +7,43 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Hello PhoenixGame!</title>
+    <title>Welcome to test game</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
 
   <body>
-    <div class="container">
-      <header class="header">
-        <nav role="navigation">
-          <ul class="nav nav-pills pull-right">
-            <li><a href="http://www.phoenixframework.org/docs">Get Started</a></li>
+    <header>
+      <nav>
+        <div class="logo">Game</div>
+        <div class="top-menu">
+          <ul class="links">
+            <li>
+              <a href="/">Home</a>
+            </li>
           </ul>
-        </nav>
-        <span class="logo"></span>
-      </header>
+        </div>
+      </nav>
+      <div class='notices'>
+        <%
+        info = get_flash(@conn, :info)
+        error = get_flash(@conn, :error)
+      %>
+      <%= if info do %>
+        <p class="alert alert-info" role="alert"><%= info %></p>
+      <% end %>
+      <%= if error do %>
+        <p class="alert alert-error" role="alert"><%= error %></p>
+      <% end %>
+    </div>
+  </header>
 
-      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+  <main>
+    <%= render @view_module, @view_template, assigns %>
+  </main>
 
-      <main role="main">
-        <%= render @view_module, @view_template, assigns %>
-      </main>
-
-    </div> <!-- /container -->
-    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
-  </body>
+  <footer>
+    <p>A <a href="https://github.com/RichardVickerstaff">RichardVickerstaff</a> play project</p>
+  </footer>
+  <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+</body>
 </html>
