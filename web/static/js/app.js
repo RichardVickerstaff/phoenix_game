@@ -1,9 +1,6 @@
-import "phoenix_html"
-import { Socket } from "phoenix";
+var renderer = require('./renderer.js');
+var start = function(){
+  renderer();
+};
 
-// Import local files
-//
-// Local files can be imported directly using relative
-// paths "./socket" or full ones "web/static/js/socket".
-
-// import socket from "./socket"
+window.addEventListener('load', start);
