@@ -1,5 +1,6 @@
 defmodule Game.Cache do
-use GenServer
+  require Logger
+  use GenServer
 
   def start_link(opts \\ []) do
     GenServer.start_link(__MODULE__, [
@@ -16,6 +17,7 @@ use GenServer
   end
 
   defp get(slug) do
+    Logger.info  "Get game state"
     case GenServer.call(__MODULE__, {:get, slug}) do
       [] -> {:not_found}
       [{_slug, result}] -> {:found, result}
@@ -23,6 +25,7 @@ use GenServer
   end
 
   def set(slug, value) do
+    Logger.info  "Set game state"
     GenServer.call(__MODULE__, {:set, slug, value})
   end
 

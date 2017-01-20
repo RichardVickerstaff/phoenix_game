@@ -1,4 +1,5 @@
 defmodule PhoenixGame.GameChannel do
+  require Logger
   use PhoenixGame.Web, :channel
 
   def join("game:lobby", payload, socket) do
@@ -10,6 +11,7 @@ defmodule PhoenixGame.GameChannel do
   end
 
   def handle_in("action", payload, socket) do
+    Logger.info  "User input"
     Game.Cache.set("1234", new_game_state())
     broadcast! socket, "update_state", game_state()
     {:noreply, socket}
@@ -33,6 +35,7 @@ defmodule PhoenixGame.GameChannel do
   end
 
   defp new_game_state do
+    Logger.info  "Create new game state"
     state = game_state()
     Map.put(state, :x, state.x + 1)
   end
