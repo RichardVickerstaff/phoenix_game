@@ -11,8 +11,7 @@ defmodule PhoenixGame.GameChannel do
   end
 
   def handle_in("action", payload, socket) do
-    Logger.info  "User input"
-    Game.Cache.set("1234", new_game_state())
+    Game.Cache.set("1234", new_game_state(payload["body"]))
     broadcast! socket, "update_state", game_state()
     {:noreply, socket}
   end
@@ -34,9 +33,17 @@ defmodule PhoenixGame.GameChannel do
     Game.Cache.fetch("1234", %{color: "#6173F4", x: 0, y: 0, z: -5 })
   end
 
-  defp new_game_state do
-    Logger.info  "Create new game state"
+  defp new_game_state(payload) do
     state = game_state()
-    Map.put(state, :x, state.x + 1)
+    case payload["key_code"] do
+      49 ->
+        Map.put(state, :x, state.x - 1)
+      50 ->
+        Map.put(state, :x, state.x + 1)
+      51 ->
+        Map.put(state, :z, state.z + 1)
+      52 ->
+        Map.put(state, :z, state.z - 1)
+    end
   end
 end

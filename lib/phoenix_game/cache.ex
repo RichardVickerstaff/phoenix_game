@@ -17,7 +17,6 @@ defmodule Game.Cache do
   end
 
   defp get(slug) do
-    Logger.info  "Get game state"
     case GenServer.call(__MODULE__, {:get, slug}) do
       [] -> {:not_found}
       [{_slug, result}] -> {:found, result}
@@ -25,7 +24,6 @@ defmodule Game.Cache do
   end
 
   def set(slug, value) do
-    Logger.info  "Set game state"
     GenServer.call(__MODULE__, {:set, slug, value})
   end
 

@@ -23,11 +23,7 @@ module.exports = function(){
     .receive("error", resp => { console.log("Unable to join", resp) })
 
   var onKeydown = function (evt) {
-    console.log(evt);
-    if(evt.keyCode === 49){
-      console.log('send event');
-      channel.push("action", {body: {key_code: 49}})
-    }
+    channel.push("action", {body: {key_code: evt.keyCode}})
   };
   window.addEventListener('keydown', onKeydown);
 };
