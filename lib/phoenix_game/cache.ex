@@ -16,7 +16,7 @@ defmodule Game.Cache do
     end
   end
 
-  defp get(slug) do
+  def get(slug) do
     case GenServer.call(__MODULE__, {:get, slug}) do
       [] -> {:not_found}
       [{_slug, result}] -> {:found, result}

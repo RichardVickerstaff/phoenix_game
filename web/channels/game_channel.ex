@@ -2,17 +2,18 @@ defmodule PhoenixGame.GameChannel do
   require Logger
   use PhoenixGame.Web, :channel
 
-  def join("game:lobby", payload, socket) do
+  def join("game:" <> game_id, payload, socket) do
     if authorized?(payload) do
-      {:ok, game_state(), socket}
+      {:ok, game_state(game_id), socket}
     else
       {:error, %{reason: "unauthorized"}}
     end
   end
 
   def handle_in("action", payload, socket) do
-    Game.Cache.set("1234", new_game_state(payload["body"]))
-    broadcast! socket, "update_state", game_state()
+    game_id = payload["body"]["game_id"]
+    Game.Cache.set(game_id, new_game_state(payload["body"]))
+    broadcast! socket, "update_state", game_state(game_id)
     {:noreply, socket}
   end
 
@@ -29,12 +30,17 @@ defmodule PhoenixGame.GameChannel do
     true
   end
 
-  defp game_state do
-    Game.Cache.fetch("1234", %{color: "#6173F4", x: 0, y: 0, z: -5 })
+  defp game_state(game_id) do
+    IO.puts game_id
+    IO.inspect Game.Cache.get(game_id)
+    state = Game.Cache.fetch(game_id, %{color: "#6173F4", x: 0, y: 0, z: -5, game_id: game_id })
+    IO.inspect state
+    IO.inspect Game.Cache.get(game_id)
+    state
   end
 
   defp new_game_state(payload) do
-    state = game_state()
+    state = game_state(payload["game_id"])
     case payload["key_code"] do
       49 ->
         Map.put(state, :x, state.x - 1)

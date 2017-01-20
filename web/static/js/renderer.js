@@ -10,7 +10,8 @@ import { Socket } from "phoenix";
 module.exports = function(){
   let socket = new Socket("/socket", {params: {token: window.userToken}})
   socket.connect()
-  let channel = socket.channel("game:lobby", {})
+  var game_id = document.querySelector('meta[name="game_id"]').content;
+  let channel = socket.channel("game:" + game_id, {})
 
   channel.on("update_state", payload => {
     ReactDOM.render(<Scene game_state={payload}/>, document.getElementById('game'));
@@ -23,7 +24,7 @@ module.exports = function(){
     .receive("error", resp => { console.log("Unable to join", resp) })
 
   var onKeydown = function (evt) {
-    channel.push("action", {body: {key_code: evt.keyCode}})
+    channel.push("action", {body: {key_code: evt.keyCode, game_id: game_id}})
   };
   window.addEventListener('keydown', onKeydown);
 };

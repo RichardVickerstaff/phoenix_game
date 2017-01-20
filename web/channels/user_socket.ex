@@ -3,7 +3,7 @@ defmodule PhoenixGame.UserSocket do
 
   ## Channels
   # channel "room:*", PhoenixGame.RoomChannel
-  channel "game:lobby", PhoenixGame.GameChannel
+  channel "game:*", PhoenixGame.GameChannel
   # 
 
   ## Transports
