@@ -1,25 +1,25 @@
 var React = require('react');
 
 module.exports = React.createClass({
-  displayName:'Word',
+  displayName:'guess',
 
   handle_submit: function(event){
     event.preventDefault();
-    var input = document.getElementById('word-input');
+    var input = document.getElementById('guess-input');
     var value = input.value;
-    input.disabled = true;
     input.value = "";
 
-    this.props.channel.push("setup", {body: {word: value, game_id: this.props.game_state.game_id}})
+    this.props.channel.push("guess", {body: {guess: value, game_id: this.props.game_state.game_id}})
   },
 
   render: function() {
     return (
       <div id='word' >
+        Guess: {this.props.game_state.guesses}
         <form onSubmit={this.handle_submit}>
           <label>
-            Word:
-            <input id='word-input' type="text" name="name" />
+            Guess:
+            <input id='guess-input' type="text" name="name" maxLength="1" />
           </label>
           <input type="submit" value="Submit" />
       </form>

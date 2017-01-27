@@ -1,5 +1,6 @@
 var React = require('react');
 var Word = require('./word.jsx');
+var Guess = require('./guess.jsx');
 
 module.exports = React.createClass({
   displayName:'Hangman',
@@ -10,6 +11,7 @@ module.exports = React.createClass({
       return(
         <div id='hangman' >
           {this.props.game_state.word_guess}
+          <Guess channel={this.props.channel} game_state={this.props.game_state}/>
         </div>
       );
     }else{
