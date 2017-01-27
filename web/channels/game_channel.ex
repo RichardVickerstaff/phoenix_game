@@ -31,13 +31,13 @@ defmodule PhoenixGame.GameChannel do
   end
 
   defp game_state(game_id) do
-    {word, state} = Map.pop(Game.Cache.fetch(game_id, %{game_id: game_id }), :word, nil)
+    {word, state} = Map.pop(Game.Cache.fetch(game_id, %{game_id: game_id, guesses: []}), :word, nil)
     state
   end
 
   defp set_word(payload) do
-    game_state(payload["game_id"])
-    |> Map.put(:word, payload["word"])
-    |> Map.put(:word_guess, String.graphemes(payload["word"]))
+    state = game_state(payload["game_id"])
+    state = Map.put(state, :word, String.graphemes(payload["word"]))
+    Map.put(state, :word_guess, Enum.map(String.graphemes(payload["word"]), fn(x) -> "_" end))
   end
 end
