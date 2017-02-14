@@ -54,6 +54,19 @@ defmodule PhoenixGame.GameChannel do
 
   defp guess(payload) do
     state = game_state(payload["game_id"])
-    Map.put(state, :guesses, (state.guesses || []) ++ [payload["guess"]])
+    Map.put(state, :guesses, state.guesses ++ [payload["guess"]])
   end
+
+
+
+
+
+
+  defp replace_geuss(word_guess, word, guess) do
+    [h_word_guess | t_word_guess] = word_guess
+  end
+
+
+
+
 end
